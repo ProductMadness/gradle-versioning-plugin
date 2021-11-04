@@ -1,0 +1,58 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Publish artifacts
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  ARTIFACTORY_URL: https://jfrog.madness.games/artifactory
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+    env:
+      COMMIT_MSG: ${{ github.event.head_commit.message }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Set version env
+        run: echo "RELEASE_VERSION=$(echo $(./gradlew properties -q | grep "version:" | awk '{print $2}'))" >> $GITHUB_ENV
+      - name: Build
+        run: |
+          ./gradlew clean build \
+          -Partifactory \
+          -Partifactory_context_url=${{ env.ARTIFACTORY_URL }} \
+          -Partifactory_repo_key=libs-release \
+          -Partifactory_user=${{ secrets.JFROG_MAVEN_LIBSRELEASE_SERVICE_USERNAME }} \
+          -Partifactory_password=${{ secrets.JFROG_MAVEN_LIBSRELEASE_SERVICE_APITOKEN }}
+      - name: Publish
+        run: |
+          ./gradlew artifactoryPublish \
+          -Partifactory \
+          -Partifactory_context_url=${{ env.ARTIFACTORY_URL }} \
+          -Partifactory_repo_key=libs-release \
+          -Partifactory_user=${{ secrets.JFROG_MAVEN_LIBSRELEASE_SERVICE_USERNAME }} \
+          -Partifactory_password=${{ secrets.JFROG_MAVEN_LIBSRELEASE_SERVICE_APITOKEN }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.RELEASE_VERSION }}
+          release_name: Release v${{ env.RELEASE_VERSION }}
+          body: |
+            Changes in this Release:
+            ${{ env.COMMIT_MSG }}
+          draft: false
+          prerelease: false
