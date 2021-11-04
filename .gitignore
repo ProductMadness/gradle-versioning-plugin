@@ -59,8 +59,6 @@ captures/
 
 # IntelliJ
 .idea/**
-!.idea/codeStyles
-!.idea/modules.xml
 *.iml
 
 # Keystore files
