@@ -54,6 +54,9 @@ jobs:
       - name: Build
         run: ./gradlew clean build -Partifactory
 
+      - name: Generate plugin pom
+        run: ./gradlew generatePomFileForVersioningPluginPluginMarkerMavenPublication -Partifactory
+
       - name: Publish
         run: ./gradlew artifactoryPublish -Partifactory
 
