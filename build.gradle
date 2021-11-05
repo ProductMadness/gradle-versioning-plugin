@@ -50,7 +50,7 @@ if (isArtifactoryEnabled) {
             defaults {
                 publications('mavenJava')
                 publishArtifacts = true
-                publishBuildInfo = true
+                publishBuildInfo = false
             }
         }
     }
