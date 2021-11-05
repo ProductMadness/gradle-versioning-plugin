@@ -61,7 +61,7 @@ jobs:
         run: ./gradlew artifactoryPublish -Partifactory
 
       - name: Publish plugin pom
-        run: ./gradlew publishVersioningPluginPluginMarkerMavenPublicationToMavenLocal -Partifactory
+        run: ./gradlew publishVersioningPluginPluginMarkerMavenPublicationToJfrogRepository -Partifactory
 
       - name: Create Release
         id: create_release

@@ -8,7 +8,7 @@ plugins {
 
 project.description 'Gradle project versioning plugin based on Git tags.'
 project.group = 'com.productmadness'
-project.version = '0.1.5'
+project.version = '0.1.6'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
