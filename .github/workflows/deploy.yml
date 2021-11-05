@@ -41,26 +41,21 @@ jobs:
             jenkins/jfrog/service-accounts/ci username ;
             jenkins/jfrog/service-accounts/ci password
 
+      - name: Set gradlew property
+        run: |
+          echo "ORG_GRADLE_PROJECT_artifactory_context_url=${{ env.ARTIFACTORY_URL }}" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_repo_key=libs-release" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_user=${{ steps.vault.outputs.username }}" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_password=${{ steps.vault.outputs.password }}" >> $GITHUB_ENV
+
       - name: Set version env
         run: echo "RELEASE_VERSION=$(echo $(./gradlew properties -q | grep "version:" | awk '{print $2}'))" >> $GITHUB_ENV
 
       - name: Build
-        run: |
-          ./gradlew clean build \
-          -Partifactory \
-          -Partifactory_context_url=${{ env.ARTIFACTORY_URL }} \
-          -Partifactory_repo_key=libs-release \
-          -Partifactory_user=${{ steps.vault.outputs.username }} \
-          -Partifactory_password=${{ steps.vault.outputs.password }}
+        run: ./gradlew clean build -Partifactory
 
       - name: Publish
-        run: |
-          ./gradlew artifactoryPublish \
-          -Partifactory \
-          -Partifactory_context_url=${{ env.ARTIFACTORY_URL }} \
-          -Partifactory_repo_key=libs-release \
-          -Partifactory_user=${{ steps.vault.outputs.username }} \
-          -Partifactory_password=${{ steps.vault.outputs.password }}
+        run: ./gradlew artifactoryPublish -Partifactory
 
       - name: Create Release
         id: create_release
