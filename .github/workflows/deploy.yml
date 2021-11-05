@@ -38,8 +38,8 @@ jobs:
           roleId: ${{ secrets.GTA_VAULT_ROLEID }}
           secretId: ${{ secrets.GTA_VAULT_SECRETID }}
           secrets: |
-            jenkins/jfrog/service-accounts/ci username ;
-            jenkins/jfrog/service-accounts/ci password
+            jenkins/jfrog/service-accounts/coretech username ;
+            jenkins/jfrog/service-accounts/coretech password
 
       - name: Set gradlew property
         run: |
