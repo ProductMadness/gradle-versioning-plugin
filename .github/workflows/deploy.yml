@@ -38,13 +38,13 @@ jobs:
           roleId: ${{ secrets.GTA_VAULT_ROLEID }}
           secretId: ${{ secrets.GTA_VAULT_SECRETID }}
           secrets: |
-            jenkins/jfrog/service-accounts/coretech username ;
-            jenkins/jfrog/service-accounts/coretech password
+            jenkins/jfrog/service-accounts/ci username ;
+            jenkins/jfrog/service-accounts/ci password
 
       - name: Set gradlew property
         run: |
           echo "ORG_GRADLE_PROJECT_artifactory_context_url=${{ env.ARTIFACTORY_URL }}" >> $GITHUB_ENV
-          echo "ORG_GRADLE_PROJECT_artifactory_repo_key=libs-release" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_repo_key=plugins-release" >> $GITHUB_ENV
           echo "ORG_GRADLE_PROJECT_artifactory_user=${{ steps.vault.outputs.username }}" >> $GITHUB_ENV
           echo "ORG_GRADLE_PROJECT_artifactory_password=${{ steps.vault.outputs.password }}" >> $GITHUB_ENV
 
