@@ -1,6 +1,38 @@
+## How to set up private Artifactory repository
+
+Check out [this documentation](https://confluence.productmadness.com/display/GTA/How+to%3A+jFrog+artifactory)
+for a setup guide.
+
+## How to add versioning plugin
+
+Add plugin to the `plugins` section:
+```groovy
+plugins {
+    ...
+    id 'com.productmadness.versioning' version '<version>'
+    ...
+}
+```
+Don't forget to add plugin repository definition to the `settings.gradle`:
+```groovy
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+        maven {
+            url "${artifactory_context_url}/${artifactory_repo_key}"
+            credentials {
+                username "${artifactory_user}"
+                password "${artifactory_password}"
+            }
+        }
+    }
+}
+```
+
 # Project Versioning Plugin
 
-Latest version ![Latest version][01]
+Latest version 0.1.0
 
 This [Gradle Plugin][3] will generate automatically project versions based on your repository's tags and commits.
 
@@ -8,6 +40,7 @@ It is a basic implementation of [Semantic Versioning 2.0.0][1] recommendation an
 to adopt the suggested [Google Play publishing scheme][2].
 
 It works with Git version 2.x.
+Required gradle version is 7+
 
 
 ## Why choosing this library?
