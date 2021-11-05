@@ -44,7 +44,7 @@ jobs:
       - name: Set gradlew property
         run: |
           echo "ORG_GRADLE_PROJECT_artifactory_context_url=${{ env.ARTIFACTORY_URL }}" >> $GITHUB_ENV
-          echo "ORG_GRADLE_PROJECT_artifactory_repo_key=plugins-release" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_plugins_repo_key=plugins-release" >> $GITHUB_ENV
           echo "ORG_GRADLE_PROJECT_artifactory_user=${{ steps.vault.outputs.username }}" >> $GITHUB_ENV
           echo "ORG_GRADLE_PROJECT_artifactory_password=${{ steps.vault.outputs.password }}" >> $GITHUB_ENV
 
@@ -54,14 +54,11 @@ jobs:
       - name: Build
         run: ./gradlew clean build -Partifactory
 
-      - name: Generate plugin pom
-        run: ./gradlew generatePomFileForVersioningPluginPluginMarkerMavenPublication -Partifactory
-
       - name: Publish
         run: ./gradlew artifactoryPublish -Partifactory
 
       - name: Publish plugin pom
-        run: ./gradlew publishVersioningPluginPluginMarkerMavenPublicationToJfrogRepository -Partifactory
+        run: ./gradlew -Partifactory publishVersioningPluginPluginMarkerMavenPublicationToJfrogRepository
 
       - name: Create Release
         id: create_release

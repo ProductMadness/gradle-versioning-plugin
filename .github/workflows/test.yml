@@ -40,11 +40,12 @@ jobs:
             jenkins/jfrog/service-accounts/coretech username ;
             jenkins/jfrog/service-accounts/coretech password
 
-      - name: Run checkstyle and tests with Gradle
+      - name: Set gradlew property
         run: |
-          ./gradlew clean check \
-          -Partifactory \
-          -Partifactory_context_url=${{ env.ARTIFACTORY_URL }} \
-          -Partifactory_repo_key=libs-release \
-          -Partifactory_user=${{ steps.vault.outputs.username }} \
-          -Partifactory_password=${{ steps.vault.outputs.password }}
+          echo "ORG_GRADLE_PROJECT_artifactory_context_url=${{ env.ARTIFACTORY_URL }}" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_plugins_repo_key=plugins-release" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_user=${{ steps.vault.outputs.username }}" >> $GITHUB_ENV
+          echo "ORG_GRADLE_PROJECT_artifactory_password=${{ steps.vault.outputs.password }}" >> $GITHUB_ENV
+
+      - name: Run checkstyle and tests with Gradle
+        run: ./gradlew clean check -Partifactory
