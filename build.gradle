@@ -8,7 +8,7 @@ plugins {
 
 project.description 'Gradle project versioning plugin based on Git tags.'
 project.group = 'com.productmadness'
-project.version = '0.1.4'
+project.version = '0.1.5'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -35,6 +35,16 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+        }
+    }
+    repositories {
+        maven {
+            name "jfrog"
+            url "${artifactory_context_url}/${artifactory_repo_key}"
+            credentials {
+                username "${artifactory_user}"
+                password "${artifactory_password}"
+            }
         }
     }
 }
