@@ -48,7 +48,7 @@ if (isArtifactoryEnabled) {
                 maven = true
             }
             defaults {
-                publications('mavenJava')
+                publications('pluginPublication')
                 publishArtifacts = true
                 publishBuildInfo = false
             }
