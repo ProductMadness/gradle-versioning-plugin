@@ -2,13 +2,13 @@ plugins {
     id 'groovy'
     id 'java-gradle-plugin'
     id 'maven-publish'
-    id 'com.jfrog.artifactory' version '4.21.0'
+    id 'com.jfrog.artifactory' version '4.27.1'
     id 'com.gradle.plugin-publish' version '0.16.0'
 }
 
 project.description 'Gradle project versioning plugin based on Git tags.'
 project.group = 'com.productmadness'
-project.version = '1.0.0'
+project.version = '1.0.1'
 
 sourceCompatibility = JavaVersion.VERSION_21
 
