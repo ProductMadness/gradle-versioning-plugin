@@ -71,7 +71,7 @@ class GitUtil {
                          OnGitCommandSuccess successListener = null,
                          OnGitCommandFailure failureListener = null) {
         def commands = CommandUtil.processCommands(
-                'git tag -l %1$s[0-9]* --sort=-creatordate',
+                'git tag -l %1$s[0-9]* --sort=-v:refname',
                 versionPrefix)
         executeGitCommand(commands, successListener, failureListener)
     }
