@@ -95,7 +95,7 @@ class GitUtil {
     static ArrayList<String> getCommitList(String[] msgKeywords, String fromCommit, String toCommit = "HEAD") {
         final String grepCommand = CommandUtil.formGrepTemplate(1, msgKeywords.length)
         ArrayList<String> commitList = null
-        revList("$fromCommit..$toCommit $grepCommand",
+        revList("-i $fromCommit..$toCommit $grepCommand",
                 msgKeywords, {
             commitList = it.split("\\n").findAll { it.length() == 40 }
         })

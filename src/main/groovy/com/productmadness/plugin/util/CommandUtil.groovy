@@ -31,7 +31,7 @@ class CommandUtil {
     static String formGrepTemplate(int startIndex, int length) {
         def grepTemplate = new StringBuilder()
         (startIndex..(startIndex + length - 1)).each {
-            grepTemplate.append("--grep -i %$it\$s")
+            grepTemplate.append("--grep %$it\$s")
         }
 
         return grepTemplate.replaceAll("(?!^)--grep", " --grep").toString()
